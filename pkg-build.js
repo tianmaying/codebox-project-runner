@@ -6,6 +6,19 @@
 var rpc = codebox.require("core/rpc");
 var commands = codebox.require("core/commands");
 
+var projecRunnerService = {
+    run: function(directory) {
+        return rpc.execute("project-runner/run", {
+            directory: directory
+        });
+    }
+}
+
+if(!codebox.services) {
+    codebox.services = {};
+}
+codebox.services['projecRunnerService'] = projecRunnerService;
+
 commands.register({
     id: "run.project",
     title: "PROJECT: RUN",
@@ -14,10 +27,7 @@ commands.register({
         "alt+r"
     ],
     run: function(args, context) {
-        return rpc.execute("project-runner/run", {
-            directory: "test directory"
-        }).then(function(data){
-            console.log(data);
+        return projecRunnerService.run().then(function(data){
             window.open(data);
         });
     }

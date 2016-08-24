@@ -10,8 +10,13 @@ var projecRunnerService = {
         return rpc.execute("project-runner/run", {
             directory: directory
         });
+    },
+    toApp: function() {
+        return rpc.execute("codebox/workspace").then(function(data) {
+            window.open(data.appUrl);
+        });
     }
-}
+};
 
 if(!codebox.services) {
     codebox.services = {};
@@ -19,7 +24,7 @@ if(!codebox.services) {
 codebox.services['projecRunnerService'] = projecRunnerService;
 
 commands.register({
-    id: "run.project",
+    id: "project.run",
     title: "PROJECT: RUN",
     icon: "playback-play",
     shortcuts: [
@@ -30,5 +35,20 @@ commands.register({
             window.open(data);
         });
     }
+});
+
+commands.register({
+    id: "project.view",
+    title: "PROJECT: RUN",
+    icon: "device-desktop",
+    run: function(args, context) {
+        return projecRunnerService.toApp();
+    }
+});
+
+codebox.menubar.createMenu({
+    id: "project-runner",
+    caption: "访问应用",
+    command: "project.view"
 });
 

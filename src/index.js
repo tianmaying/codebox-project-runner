@@ -12,7 +12,7 @@ var projecRunnerService = {
         });
     },
     toApp: function() {
-        return rpc.execute("codebox/workspace").then(function(data) {
+        return rpc.execute("api/workspace").then(function(data) {
             window.open(data.appUrl);
         });
     }
@@ -27,9 +27,6 @@ commands.register({
     id: "project.run",
     title: "PROJECT: RUN",
     icon: "playback-play",
-    shortcuts: [
-        "alt+r"
-    ],
     run: function(args, context) {
         return projecRunnerService.run().then(function(data){
             window.open(data);
